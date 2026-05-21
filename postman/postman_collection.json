@@ -1,0 +1,575 @@
+{
+	"info": {
+		"_postman_id": "a06a221f-a717-4c1a-afa2-44aabebf0260",
+		"name": "Katch-api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "45484127",
+		"_collection_link": "https://poysa213.postman.co/workspace/katch-api~0fa12db8-e853-4a56-aba1-fb811772f95a/collection/45484127-a06a221f-a717-4c1a-afa2-44aabebf0260?action=share&source=collection_link&creator=45484127"
+	},
+	"item": [
+		{
+			"name": "Instagram",
+			"item": [
+				{
+					"name": "Get Report",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/instagram/itspoysa/report",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"instagram",
+								"itspoysa",
+								"report"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Trackers",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/instagram/track",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"instagram",
+								"track"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Track User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/instagram/houcin/track",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"instagram",
+								"houcin",
+								"track"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Disable notifs",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/instagram/amir.slaimi/track/disable_notifications",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"instagram",
+								"amir.slaimi",
+								"track",
+								"disable_notifications"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Enable notifs",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/instagram/amir.slaimi/track/enable_notifications",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"instagram",
+								"amir.slaimi",
+								"track",
+								"enable_notifications"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "init",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const requestBody = JSON.parse(pm.request.body.raw);",
+									"",
+									"if (requestBody.uid) {",
+									"    pm.environment.set(\"app_user_id\", requestBody.uid);",
+									"    console.log(\"UUID saved to environment:\", requestBody.uid);",
+									"} else {",
+									"    console.log(\"No UUID found in request body\");",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"console.log(\"hello\")",
+									"console.log(pm.environment.get(\"app_user_id\"))"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"uid\": \"6c36f37f-dfe7-4ec3-aa90-a44ed66590a4\"\n    // \"pushNotificationToken\": \"optional token\"\n    \n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/users/init",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"users",
+								"init"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "me",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"uid\":\"ddd\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/users/me",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"users",
+								"me"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Revenucat",
+			"item": [
+				{
+					"name": "INITIAL_PURCHASE",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"event\": {\n        \"event_timestamp_ms\": 1658726378679,\n        \"product_id\": \"katch_999_1m\",\n        \"period_type\": \"NORMAL\",\n        \"purchased_at_ms\": 1658726374000,\n        \"expiration_at_ms\": 1659331174000,\n        \"environment\": \"PRODUCTION\",\n        \"entitlement_id\": null,\n        \"entitlement_ids\": [\n            \"pro\"\n        ],\n        \"presented_offering_id\": null,\n        \"transaction_id\": \"123456789012345\",\n        \"original_transaction_id\": \"123456789012345\",\n        \"is_family_share\": false,\n        \"country_code\": \"US\",\n        \"app_user_id\": \"{{app_user_id}}\",\n        \"aliases\": [\n            \"$RCAnonymousID:8069238d6049ce87cc529853916d624c\"\n        ],\n        \"original_app_user_id\": \"$RCAnonymousID:87c6049c58069238dce29853916d624c\",\n        \"currency\": \"USD\",\n        \"price\": 4.99,\n        \"price_in_purchased_currency\": 4.99,\n        \"subscriber_attributes\": {\n            \"$email\": {\n                \"updated_at_ms\": 1662955084635,\n                \"value\": \"firstlast@gmail.com\"\n            }\n        },\n        \"store\": \"APP_STORE\",\n        \"takehome_percentage\": 0.7,\n        \"offer_code\": null,\n        \"type\": \"INITIAL_PURCHASE\",\n        \"id\": \"12345678-1234-1234-1234-123456789012\",\n        \"app_id\": \"1234567890\"\n    },\n    \"api_version\": \"1.0\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_HOST}}/api/revenucat/webhook",
+							"host": [
+								"{{BASE_HOST}}"
+							],
+							"path": [
+								"api",
+								"revenucat",
+								"webhook"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RENEWAL",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"event\": {\n        \"event_timestamp_ms\": 1658726378679,\n        \"product_id\": \"katch_999_1m\",\n        \"period_type\": \"NORMAL\",\n        \"purchased_at_ms\": 1658726374000,\n        \"expiration_at_ms\": 1659331174000,\n        \"environment\": \"PRODUCTION\",\n        \"entitlement_id\": null,\n        \"entitlement_ids\": [\n            \"pro\"\n        ],\n        \"presented_offering_id\": null,\n        \"transaction_id\": \"123456789012345\",\n        \"original_transaction_id\": \"123456789012345\",\n        \"is_family_share\": false,\n        \"country_code\": \"US\",\n        \"app_user_id\": \"{{app_user_id}}\",\n        \"aliases\": [\n            \"$RCAnonymousID:8069238d6049ce87cc529853916d624c\"\n        ],\n        \"original_app_user_id\": \"$RCAnonymousID:87c6049c58069238dce29853916d624c\",\n        \"currency\": \"USD\",\n        \"price\": 4.99,\n        \"price_in_purchased_currency\": 4.99,\n        \"subscriber_attributes\": {\n            \"$email\": {\n                \"updated_at_ms\": 1662955084635,\n                \"value\": \"firstlast@gmail.com\"\n            }\n        },\n        \"store\": \"APP_STORE\",\n        \"takehome_percentage\": 0.7,\n        \"offer_code\": null,\n        \"type\": \"RENEWAL\",\n        \"id\": \"12345678-1234-1234-1234-123456789012\",\n        \"app_id\": \"1234567890\"\n    },\n    \"api_version\": \"1.0\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_HOST}}/api/revenucat/webhook",
+							"host": [
+								"{{BASE_HOST}}"
+							],
+							"path": [
+								"api",
+								"revenucat",
+								"webhook"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CANCELLATION",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"event\": {\n        \"event_timestamp_ms\": 1601337615995,\n        \"product_id\": \"katch_999_1m\",\n        \"period_type\": \"NORMAL\",\n        \"purchased_at_ms\": 1601417766000,\n        \"expiration_at_ms\": 1602022566000,\n        \"environment\": \"PRODUCTION\",\n        \"entitlement_id\": \"pro\",\n        \"entitlement_ids\": [\n            \"pro\"\n        ],\n        \"presented_offering_id\": \"defaultoffering\",\n        \"transaction_id\": \"100000000000002\",\n        \"original_transaction_id\": \"100000000000000\",\n        \"app_user_id\": \"{{app_user_id}}\",\n        \"aliases\": [\n            \"$RCAnonymousID:12345678-1234-ABCD-1234-123456789123\",\n            \"user_1234\"\n        ],\n        \"offer_code\": \"free_month\",\n        \"original_app_user_id\": \"$RCAnonymousID:12345678-1234-ABCD-1234-123456789123\",\n        \"cancel_reason\": \"UNSUBSCRIBE\",\n        \"currency\": \"USD\",\n        \"price\": 0.0,\n        \"price_in_purchased_currency\": 0.0,\n        \"subscriber_attributes\": {\n            \"$idfa\": {\n                \"value\": \"12345678-1234-1234-1234-12345678912x\",\n                \"updated_at_ms\": 1578018408238\n            },\n            \"$appsflyerId\": {\n                \"value\": \"1234567891234-1234567\",\n                \"updated_at_ms\": 1578018408238\n            },\n            \"favorite_food\": {\n                \"value\": \"pizza\",\n                \"updated_at_ms\": 1578018408238\n            }\n        },\n        \"store\": \"APP_STORE\",\n        \"takehome_percentage\": 0.7,\n        \"type\": \"CANCELLATION\",\n        \"id\": \"12345678-ABCD-1234-ABCD-12345678912\"\n    },\n    \"api_version\": \"1.0\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_HOST}}/api/revenucat/webhook",
+							"host": [
+								"{{BASE_HOST}}"
+							],
+							"path": [
+								"api",
+								"revenucat",
+								"webhook"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UNCANCELLATION",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"event\": {\n        \"event_timestamp_ms\": 1663982135337,\n        \"product_id\": \"katch_999_1m\",\n        \"period_type\": \"NORMAL\",\n        \"purchased_at_ms\": 1662643092000,\n        \"expiration_at_ms\": 1665235092000,\n        \"environment\": \"PRODUCTION\",\n        \"entitlement_id\": null,\n        \"entitlement_ids\": [\n            \"plus\"\n        ],\n        \"presented_offering_id\": \"plus\",\n        \"transaction_id\": \"123456789012345\",\n        \"original_transaction_id\": \"123456789012345\",\n        \"is_family_share\": false,\n        \"country_code\": \"US\",\n        \"app_user_id\": \"{{app_user_id}}\",\n        \"aliases\": [\n            \"$RCAnonymousID:8069238d6049ce87cc529853916d624c\"\n        ],\n        \"original_app_user_id\": \"$RCAnonymousID:87c6049c58069238dce29853916d624c\",\n        \"currency\": \"USD\",\n        \"price\": 0.0,\n        \"price_in_purchased_currency\": 0.0,\n        \"subscriber_attributes\": {},\n        \"store\": \"APP_STORE\",\n        \"takehome_percentage\": 0.7,\n        \"offer_code\": null,\n        \"tax_percentage\": 0.0,\n        \"commission_percentage\": 0.3,\n        \"type\": \"UNCANCELLATION\",\n        \"id\": \"12345678-1234-1234-1234-123456789012\",\n        \"app_id\": \"1234567890\"\n    },\n    \"api_version\": \"1.0\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_HOST}}/api/revenucat/webhook",
+							"host": [
+								"{{BASE_HOST}}"
+							],
+							"path": [
+								"api",
+								"revenucat",
+								"webhook"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "NON_RENEWING_PURCHASE",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"event\": {\n        \"event_timestamp_ms\": 1658726522314,\n        \"product_id\": \"katch_999_1m\",\n        \"period_type\": \"NORMAL\",\n        \"purchased_at_ms\": 1658726519000,\n        \"expiration_at_ms\": null,\n        \"environment\": \"PRODUCTION\",\n        \"entitlement_id\": null,\n        \"entitlement_ids\": [\n            \"pro\"\n        ],\n        \"presented_offering_id\": \"coins\",\n        \"transaction_id\": \"123456789012345\",\n        \"original_transaction_id\": \"123456789012345\",\n        \"is_family_share\": false,\n        \"country_code\": \"CA\",\n        \"app_user_id\": \"{{app_user_id}}\",\n        \"aliases\": [\n            \"$RCAnonymousID:8069238d6049ce87cc529853916d624c\"\n        ],\n        \"original_app_user_id\": \"$RCAnonymousID:87c6049c58069238dce29853916d624c\",\n        \"currency\": \"CAD\",\n        \"price\": 25.487,\n        \"price_in_purchased_currency\": 32.99,\n        \"subscriber_attributes\": {\n            \"$email\": {\n                \"updated_at_ms\": 1662955084635,\n                \"value\": \"firstlast@gmail.com\"\n            }\n        },\n        \"store\": \"APP_STORE\",\n        \"takehome_percentage\": 0.85,\n        \"offer_code\": null,\n        \"type\": \"NON_RENEWING_PURCHASE\",\n        \"id\": \"12345678-1234-1234-1234-123456789012\",\n        \"app_id\": \"1234567890\"\n    },\n    \"api_version\": \"1.0\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_HOST}}/api/revenucat/webhook",
+							"host": [
+								"{{BASE_HOST}}"
+							],
+							"path": [
+								"api",
+								"revenucat",
+								"webhook"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SUBSCRIPTION_PAUSED",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"event\": {\n        \"event_timestamp_ms\": 1652796516000,\n        \"product_id\": \"katch_999_1m\",\n        \"period_type\": \"NORMAL\",\n        \"purchased_at_ms\": 1652681048845,\n        \"expiration_at_ms\": 1655366648845,\n        \"environment\": \"PRODUCTION\",\n        \"entitlement_id\": \"Premium1\",\n        \"entitlement_ids\": [\n            \"Premium1\"\n        ],\n        \"presented_offering_id\": \"premium\",\n        \"transaction_id\": \"123456789012345\",\n        \"original_transaction_id\": \"123456789012345\",\n        \"is_family_share\": false,\n        \"country_code\": \"US\",\n        \"app_user_id\": \"{{app_user_id}}\",\n        \"aliases\": [\n            \"$RCAnonymousID:8069238d6049ce87cc529853916d624c\"\n        ],\n        \"original_app_user_id\": \"$RCAnonymousID:87c6049c58069238dce29853916d624c\",\n        \"auto_resume_at_ms\": 1657951448845,\n        \"currency\": \"USD\",\n        \"price\": 0.0,\n        \"price_in_purchased_currency\": 0.0,\n        \"subscriber_attributes\": {\n            \"$email\": {\n                \"updated_at_ms\": 1662955084635,\n                \"value\": \"firstlast@gmail.com\"\n            }\n        },\n        \"store\": \"PLAY_STORE\",\n        \"takehome_percentage\": 0.85,\n        \"offer_code\": null,\n        \"type\": \"SUBSCRIPTION_PAUSED\",\n        \"id\": \"12345678-1234-1234-1234-123456789012\",\n        \"app_id\": \"1234567890\"\n    },\n    \"api_version\": \"1.0\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_HOST}}/api/revenucat/webhook",
+							"host": [
+								"{{BASE_HOST}}"
+							],
+							"path": [
+								"api",
+								"revenucat",
+								"webhook"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "BILLING_ISSUE",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"event\": {\n        \"event_timestamp_ms\": 1601337601013,\n        \"product_id\": \"katch_999_1m\",\n        \"period_type\": \"NORMAL\",\n        \"purchased_at_ms\": 1598640647000,\n        \"expiration_at_ms\": 1601319047000,\n        \"environment\": \"PRODUCTION\",\n        \"entitlement_id\": \"pro\",\n        \"entitlement_ids\": [\n            \"pro\"\n        ],\n        \"presented_offering_id\": \"defaultoffering\",\n        \"transaction_id\": \"100000000000002\",\n        \"original_transaction_id\": \"100000000000000\",\n        \"app_user_id\": \"{{app_user_id}}\",\n        \"aliases\": [\n            \"$RCAnonymousID:12345678-1234-1234-1234-123456789123\"\n        ],\n        \"offer_code\": \"summer_special\",\n        \"original_app_user_id\": \"$RCAnonymousID:12345678-1234-1234-1234-123456789123\",\n        \"currency\": \"USD\",\n        \"price\": 0,\n        \"price_in_purchased_currency\": 0,\n        \"subscriber_attributes\": {\n            \"$idfa\": {\n                \"value\": \"12345678-1234-1234-1234-12345678912x\",\n                \"updated_at_ms\": 1578018408238\n            },\n            \"$appsflyerId\": {\n                \"value\": \"1234567891234-1234567\",\n                \"updated_at_ms\": 1578018408238\n            }\n        },\n        \"store\": \"APP_STORE\",\n        \"takehome_percentage\": 0.7,\n        \"tax_percentage\": null,\n        \"commission_percentage\": null,\n        \"type\": \"BILLING_ISSUE\",\n        \"id\": \"12345678-1234-1234-1234-12345678912\"\n    },\n    \"api_version\": \"1.0\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_HOST}}/api/revenucat/webhook",
+							"host": [
+								"{{BASE_HOST}}"
+							],
+							"path": [
+								"api",
+								"revenucat",
+								"webhook"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "EXPIRATION",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"event\": {\n        \"event_timestamp_ms\": 1601337601013,\n        \"product_id\": \"katch_999_1m\",\n        \"period_type\": \"NORMAL\",\n        \"purchased_at_ms\": 1598640647000,\n        \"expiration_at_ms\": 1601319047000,\n        \"environment\": \"PRODUCTION\",\n        \"entitlement_id\": \"pro\",\n        \"entitlement_ids\": [\n            \"pro\"\n        ],\n        \"presented_offering_id\": \"defaultoffering\",\n        \"transaction_id\": \"100000000000002\",\n        \"original_transaction_id\": \"100000000000000\",\n        \"app_user_id\": \"{{app_user_id}}\",\n        \"aliases\": [\n            \"$RCAnonymousID:12345678-1234-1234-1234-123456789123\"\n        ],\n        \"offer_code\": \"summer_special\",\n        \"original_app_user_id\": \"$RCAnonymousID:12345678-1234-1234-1234-123456789123\",\n        \"currency\": \"USD\",\n        \"price\": 0,\n        \"price_in_purchased_currency\": 0,\n        \"subscriber_attributes\": {\n            \"$idfa\": {\n                \"value\": \"12345678-1234-1234-1234-12345678912x\",\n                \"updated_at_ms\": 1578018408238\n            },\n            \"$appsflyerId\": {\n                \"value\": \"1234567891234-1234567\",\n                \"updated_at_ms\": 1578018408238\n            }\n        },\n        \"store\": \"APP_STORE\",\n        \"takehome_percentage\": 0.7,\n        \"tax_percentage\": null,\n        \"commission_percentage\": null,\n        \"type\": \"EXPIRATION\",\n        \"id\": \"12345678-1234-1234-1234-12345678912\"\n    },\n    \"api_version\": \"1.0\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_HOST}}/api/revenucat/webhook",
+							"host": [
+								"{{BASE_HOST}}"
+							],
+							"path": [
+								"api",
+								"revenucat",
+								"webhook"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PRODUCT_CHANGE",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"event\": {\n        \"event_timestamp_ms\": 1601338594769,\n        \"product_id\": \"katch_999_1m\",\n        \"period_type\": \"NORMAL\",\n        \"purchased_at_ms\": 1601304429682,\n        \"expiration_at_ms\": 1601311606660,\n        \"environment\": \"PRODUCTION\",\n        \"entitlement_id\": \"subscription\",\n        \"entitlement_ids\": [\n            \"subscription\"\n        ],\n        \"presented_offering_id\": \"defaultoffering\",\n        \"transaction_id\": \"GPA.1234-1234-1234-12345\",\n        \"original_transaction_id\": \"GPA.1234-1234-1234-12345\",\n        \"app_user_id\": \"{{app_user_id}}\",\n        \"aliases\": [\n            \"$RCAnonymousID:12345678-1234-1234-1234-123456789123\"\n        ],\n        \"offer_code\": null,\n        \"original_app_user_id\": \"$RCAnonymousID:12345678-1234-1234-1234-123456789123\",\n        \"new_product_id\": \"katch_99989_1y\",\n        \"currency\": \"USD\",\n        \"price\": 0,\n        \"price_in_purchased_currency\": 0,\n        \"subscriber_attributes\": {},\n        \"store\": \"PLAY_STORE\",\n        \"takehome_percentage\": 0.70,\n        \"type\": \"PRODUCT_CHANGE\",\n        \"id\": \"12345678-1234-1234-1234-12345678912\"\n    },\n    \"api_version\": \"1.0\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_HOST}}/api/revenucat/webhook",
+							"host": [
+								"{{BASE_HOST}}"
+							],
+							"path": [
+								"api",
+								"revenucat",
+								"webhook"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SUBSCRIPTION_EXTENDED",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"event\": {\n        \"event_timestamp_ms\": 1697451462232,\n        \"product_id\": \"katch_999_1m\",\n        \"period_type\": \"NORMAL\",\n        \"purchased_at_ms\": 1696846623000,\n        \"expiration_at_ms\": 1697451423000,\n        \"environment\": \"PRODUCTION\",\n        \"entitlement_id\": null,\n        \"entitlement_ids\": [\n            \"pro\"\n        ],\n        \"presented_offering_id\": null,\n        \"transaction_id\": \"123456789012345\",\n        \"original_transaction_id\": \"123456789012345\",\n        \"is_family_share\": false,\n        \"country_code\": \"US\",\n        \"app_user_id\": \"{{app_user_id}}\",\n        \"aliases\": [\n            \"$RCAnonymousID:8069238d6049ce87cc529853916d624c\"\n        ],\n        \"original_app_user_id\": \"$RCAnonymousID:8069238d6049ce87cc529853916d624c\",\n        \"currency\": \"USD\",\n        \"price\": 0.00,\n        \"price_in_purchased_currency\": 0.00,\n        \"subscriber_attributes\": {\n            \"$email\": {\n                \"updated_at_ms\": 1662955084635,\n                \"value\": \"firstlast@gmail.com\"\n            }\n        },\n        \"store\": \"APP_STORE\",\n        \"takehome_percentage\": 0.7,\n        \"offer_code\": null,\n        \"tax_percentage\": 0.012,\n        \"commission_percentage\": 0.3,\n        \"type\": \"SUBSCRIPTION_EXTENDED\",\n        \"id\": \"12345678-1234-1234-1234-123456789012\",\n        \"app_id\": \"1234567890\"\n    },\n    \"api_version\": \"1.0\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_HOST}}/api/revenucat/webhook",
+							"host": [
+								"{{BASE_HOST}}"
+							],
+							"path": [
+								"api",
+								"revenucat",
+								"webhook"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Track",
+			"item": [
+				{
+					"name": "Track Events",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"numb_of_users\": \"444\",\n    \"shared\": true\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/track/share",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"track",
+								"share"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					"const deviceId = pm.environment.get(\"app_user_id\");",
+					"",
+					"if (deviceId) {",
+					"    pm.request.headers.upsert({",
+					"        key: \"X-Device-ID\",",
+					"        value: deviceId",
+					"    });",
+					"} else {",
+					"    console.warn(\"Environment variable 'app_user_id' is not set.\");",
+					"}",
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

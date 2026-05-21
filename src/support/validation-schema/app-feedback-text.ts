@@ -1,0 +1,7 @@
+import { object, string } from 'yup';
+
+export const appFeedbackTextSchema = object().shape({
+  feedback: string()
+    .required('Feedback is required')
+    .max(1000, 'Feedback must be at most 1000 characters long'),
+});

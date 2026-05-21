@@ -1,0 +1,42 @@
+runtime: custom
+env: flex
+
+# Use the existing Dockerfile
+# App Engine will build and deploy using your Dockerfile
+
+# Environment variables
+env_variables:
+  NODE_ENV: "production"
+  USE_SECRET_MANAGER: "true"
+  GOOGLE_CLOUD_PROJECT: "social-media-analyzer-442313"
+  # Add other non-sensitive environment variables here
+
+# Health check configuration
+liveness_check:
+  path: "/health"
+  check_interval_sec: 30
+  timeout_sec: 4
+  failure_threshold: 2
+  success_threshold: 2
+
+readiness_check:
+  path: "/health"
+  check_interval_sec: 5
+  timeout_sec: 4
+  failure_threshold: 2
+  success_threshold: 2
+  app_start_timeout_sec: 300
+
+# Resource configuration
+resources:
+  cpu: 1
+  memory_gb: 0.5
+  disk_size_gb: 10
+
+# Automatic scaling configuration
+automatic_scaling:
+  min_num_instances: 1
+  max_num_instances: 10
+  cool_down_period_sec: 120
+  cpu_utilization:
+    target_utilization: 0.6

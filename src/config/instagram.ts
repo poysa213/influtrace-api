@@ -1,0 +1,4 @@
+export const INSTAGRAM_CONFIG = {
+  MAX_FOLLOWER_COUNT: 2500,
+  MAX_FOLLOWING_COUNT: 2500,
+} as const; 

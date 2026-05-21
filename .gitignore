@@ -1,0 +1,18 @@
+/node_modules
+/dist
+.env*
+!.env.example
+
+# claude related lol
+/.claude
+/CLAUDE.md
+
+# Ignore everything under storage
+/src/storage/**
+
+# Unignore the storage/app directory
+!/src/storage/app
+!/src/storage/app/**
+
+notes.md
+.DS_Store

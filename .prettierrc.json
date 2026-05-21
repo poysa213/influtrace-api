@@ -1,0 +1,37 @@
+{
+  "plugins": ["@ianvs/prettier-plugin-sort-imports"],
+  "tabWidth": 2,
+  "arrowParens": "always",
+  "semi": true,
+  "singleQuote": true,
+  "overrides": [
+    {
+      "files": "*.ejs",
+      "options": {
+        "tabWidth": 2
+      }
+    }
+  ],
+  "importOrder": [
+    "^express$",
+    "",
+    "<BUILTIN_MODULES>",
+    "<THIRD_PARTY_MODULES>",
+    "",
+    "^(~/controllers|~/router|~/routes|~/middlewares)(/.*)$",
+    "",
+    "^(~/services|~/models)(/.*)$",
+    "",
+    "^(~/utils|~/plugins|~/lib|~/helpers|~/constants)(/.*)$",
+    "",
+    "~/support",
+    "",
+    "^[./]",
+    "^[.]",
+    "",
+    "<TYPES>",
+    "^(~/types)(/.*)$",
+    "",
+    ".css$"
+  ]
+}

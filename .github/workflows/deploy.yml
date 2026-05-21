@@ -1,0 +1,97 @@
+name: Deploy to Cloud Run
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+env:
+  GCP_PROJECT_ID: social-media-analyzer-442313
+  SERVICE_NAME: katch-api
+  REGION: us-central1
+  IMAGE_NAME: us-central1-docker.pkg.dev/social-media-analyzer-442313/katch-api/katch-api
+
+jobs:
+  deploy:
+    name: Deploy to Production
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+
+      - name: Configure Docker for Artifact Registry
+        run: gcloud auth configure-docker us-central1-docker.pkg.dev --quiet
+
+      - name: Build Docker image
+        run: |
+          docker build -t ${{ env.IMAGE_NAME }}:${{ github.sha }} .
+          docker tag ${{ env.IMAGE_NAME }}:${{ github.sha }} ${{ env.IMAGE_NAME }}:latest
+
+      - name: Push to Container Registry
+        run: |
+          docker push ${{ env.IMAGE_NAME }}:${{ github.sha }}
+          docker push ${{ env.IMAGE_NAME }}:latest
+
+      - name: Deploy to Cloud Run
+        run: |
+          gcloud run deploy ${{ env.SERVICE_NAME }} \
+            --image=${{ env.IMAGE_NAME }}:${{ github.sha }} \
+            --platform=managed \
+            --region=${{ env.REGION }} \
+            --project=${{ env.GCP_PROJECT_ID }} \
+            --allow-unauthenticated \
+            --port=8080 \
+            --memory=512Mi \
+            --cpu=1 \
+            --min-instances=1 \
+            --max-instances=10 \
+            --timeout=300 \
+            --concurrency=80 \
+            --set-env-vars="NODE_ENV=production,USE_SECRET_MANAGER=true,GOOGLE_CLOUD_PROJECT=${{ env.GCP_PROJECT_ID }}" \
+            --update-secrets=DATABASE_URL=DATABASE_URL:latest,ALLOWED_ORIGINS=ALLOWED_ORIGINS:latest,APP_URL=APP_URL:latest,APP_NAME=APP_NAME:latest,APP_ADDRESS=APP_ADDRESS:latest,HIKER_API_KEY=HIKER_API_KEY:latest,DISCORD_INSTALLS_WEBHOOK_URL=DISCORD_INSTALLS_WEBHOOK_URL:latest,DISCORD_REVENUECAT_WEBHOOK_URL=DISCORD_REVENUECAT_WEBHOOK_URL:latest,DISCORD_SHARES_WEBHOOK_URL=DISCORD_SHARES_WEBHOOK_URL:latest,DISCORD_CRON_UPDATES_WEBHOOK_URL=DISCORD_CRON_UPDATES_WEBHOOK_URL:latest,DISCORD_ERRORS_WEBHOOK_URL=DISCORD_ERRORS_WEBHOOK_URL:latest,DISCORD_AUTH_LOGS_WEBHOOK_URL=DISCORD_AUTH_LOGS_WEBHOOK_URL:latest,DISCORD_AUTH_FEEDBACK_WEBHOOK_URL=DISCORD_AUTH_FEEDBACK_WEBHOOK_URL:latest,DISCORD_FEEDBACK_WEBHOOK_URL=DISCORD_FEEDBACK_WEBHOOK_URL:latest,DISCORD_APP_HEALTH_WEBHOOK_URL=DISCORD_APP_HEALTH_WEBHOOK_URL:latest,DISCORD_ANALYSIS_WEBHOOK_URL=DISCORD_ANALYSIS_WEBHOOK_URL:latest,OPENAI_API_KEY=OPENAI_API_KEY:latest,GEMINI_API_KEY=GEMINI_API_KEY:latest,MISTRAL_API_KEY=MISTRAL_API_KEY:latest,GENDERAPI_API_KEY=GENDERAPI_API_KEY:latest,ONESIGNAL_APP_ID=ONESIGNAL_APP_ID:latest,ONESIGNAL_API_KEY=ONESIGNAL_API_KEY:latest,IP_API_KEY=IP_API_KEY:latest,REVENUECAT_WEBHOOK_SECRET=REVENUECAT_WEBHOOK_SECRET:latest,REVENUECAT_SECRET_KEY=REVENUECAT_SECRET_KEY:latest \
+            --quiet
+
+      - name: Clean up old revisions
+        run: |
+          # Keep only the 3 most recent revisions
+          gcloud run revisions list \
+            --service=${{ env.SERVICE_NAME }} \
+            --region=${{ env.REGION }} \
+            --platform=managed \
+            --project=${{ env.GCP_PROJECT_ID }} \
+            --format="value(metadata.name)" \
+            --sort-by=~metadata.creationTimestamp | tail -n +4 | \
+          while read revision; do
+            echo "Deleting old revision: $revision"
+            gcloud run revisions delete $revision \
+              --region=${{ env.REGION }} \
+              --platform=managed \
+              --project=${{ env.GCP_PROJECT_ID }} \
+              --quiet || true
+          done
+
+      - name: Get service URL
+        run: |
+          SERVICE_URL=$(gcloud run services describe ${{ env.SERVICE_NAME }} \
+            --region=${{ env.REGION }} \
+            --platform=managed \
+            --project=${{ env.GCP_PROJECT_ID }} \
+            --format="value(status.url)")
+          echo "✅ Deployment completed successfully!"
+          echo "🚀 Service URL: $SERVICE_URL"
+
+      - name: Notify on failure
+        if: failure()
+        run: |
+          echo "❌ Deployment failed!"
+          echo "Check the logs above for details."
