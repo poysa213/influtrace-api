@@ -155,6 +155,8 @@ INDUSTRY BENCHMARKS
 
 Return JSON only: { "recommendations": ["rec1", "rec2", "rec3"] }
 
+Each recommendation must be a plain string — NOT an object. No keys, no fields, just text.
+
 Each recommendation must:
 1. Reference a specific metric with its actual value
 2. Explain why it matters
@@ -168,7 +170,10 @@ Cover different angles: one about content strategy, one about engagement tactics
     try {
       const parsed = JSON.parse(content);
       const recommendations = parsed.recommendations || [];
-      return Array.isArray(recommendations) ? recommendations.slice(0, 3) : [];
+      if (!Array.isArray(recommendations)) return [];
+      return recommendations
+        .slice(0, 3)
+        .filter((r): r is string => typeof r === 'string');
     } catch {
       return [];
     }
