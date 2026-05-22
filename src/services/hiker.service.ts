@@ -240,6 +240,39 @@ class HikerService {
     }
   }
 
+  /**
+   * Fetch user medias via /gql/user/medias with flat=true
+   * Returns up to `limit` items (2 pages = ~24 items)
+   */
+  async getUserMediasGql(userId: string, limit = 24): Promise<any[]> {
+    const items: any[] = [];
+    let nextMaxId: string | null = null;
+
+    try {
+      while (items.length < limit) {
+        const params: Record<string, any> = { user_id: userId, flat: true };
+        if (nextMaxId) params.next_max_id = nextMaxId;
+
+        const response = await this.request<any>('/gql/user/medias', params);
+
+        if (!response || !response.items || !Array.isArray(response.items)) break;
+
+        items.push(...response.items);
+
+        if (!response.more_available || !response.next_max_id) break;
+        nextMaxId = response.next_max_id;
+      }
+
+      return items.slice(0, limit);
+    } catch (error) {
+      logger.error(
+        `[Hiker API] Failed to fetch user medias via GQL for ${userId}:`,
+        error,
+      );
+      throw error;
+    }
+  }
+
   async getUserProfileById(userId: string): Promise<UserProfile> {
     try {
       const result = await this.request<UserProfile>('/v1/user/by/id', {

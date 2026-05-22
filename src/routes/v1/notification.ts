@@ -1,6 +1,7 @@
 import { Router } from 'express';
 
 import {
+  registerPushTokenHandler,
   sendSelfNotificationkHandler,
   updatePerformanceNotificationHandler,
 } from '~/controllers/notification';
@@ -10,6 +11,12 @@ import {
 } from '~/middlewares/auth';
 
 const router = Router();
+
+router.post(
+  '/register-push-token',
+  ensureUserIsAuthenticated,
+  registerPushTokenHandler,
+);
 
 router.post(
   '/self',

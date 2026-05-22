@@ -35,6 +35,10 @@ export type AnalysisResult = {
     reach_percentage: number;
     reach_score: string;
     engagement_score: string;
+    content_value_score: string;
+    save_rate: number;
+    share_rate: number;
+    comment_depth: number;
   };
   expiresAt?: string;
   fromCache?: boolean;

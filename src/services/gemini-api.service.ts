@@ -43,7 +43,7 @@ interface CombinedAnalysisResult {
 class GeminiApiService {
   private genAI: GoogleGenerativeAI;
   public model: GenerativeModel;
-  private defaultModel: string = 'gemini-2.5-flash-lite-preview-06-17';
+  private defaultModel: string = 'gemini-2.5-flash';
   private geminiApiKey: string = env.GEMINI_API_KEY;
 
   safetySettings = [

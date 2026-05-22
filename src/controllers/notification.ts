@@ -9,6 +9,7 @@ import { createExceptionErrorResponse } from '~/utils/error';
 import { logger } from '~/utils/logger';
 import { validateData } from '~/utils/validation';
 
+import { pushTokenSchema } from '~/support/validation-schema/push-token';
 import { oneSignalNotificationSchema } from '~/support/validation-schema/one-signal-notification';
 import { updatePerformanceNotificationSchema } from '~/support/validation-schema/performance-notification';
 
@@ -159,4 +160,40 @@ const updatePerformanceNotificationHandler = async (
   }
 };
 
-export { sendSelfNotificationkHandler, updatePerformanceNotificationHandler };
+const registerPushTokenHandler = async (req: Request, res: Response) => {
+  try {
+    const user = req.user!;
+    const { validated, data } = await validateData(
+      pushTokenSchema,
+      req.body,
+    );
+
+    if (!validated) {
+      return void res.status(400).json({
+        code: 'invalid_data',
+        message: 'Invalid push token data',
+      });
+    }
+
+    const { token } = data;
+
+    await notificationService.updatePushToken(
+      user._id.toString(),
+      token,
+    );
+
+    return void res.status(200).json({ success: true });
+  } catch (error) {
+    logger.error(
+      'Unexpected error when registering push token:',
+      error,
+    );
+    return createExceptionErrorResponse(res, error);
+  }
+};
+
+export {
+  registerPushTokenHandler,
+  sendSelfNotificationkHandler,
+  updatePerformanceNotificationHandler,
+};
